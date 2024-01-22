@@ -1,15 +1,12 @@
 const express = require("express");
 const router = express.Router();
-// const userValidationSchema = require("./schema/UserValidationSchema");
-const User = require("../model/UserModel");
+const User = require("../model/User");
 require("../db/config");
 
 router.post("/", async (req, res) => {
   let user = new User(req.body);
   let result = await user.save();
-  result = result.toObject();
-  res.send("User created");
-  console.log(req.body);
+  res.send(result);
 });
 
 module.exports = router;
