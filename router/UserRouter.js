@@ -9,4 +9,9 @@ router.post("/", async (req, res) => {
   res.send(result);
 });
 
+router.get("/", async (req, res) => {
+  let result = await user.find();
+  res.send(result);
+});
+
 module.exports = router;

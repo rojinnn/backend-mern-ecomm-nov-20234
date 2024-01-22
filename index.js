@@ -3,7 +3,9 @@ require("./db/config");
 const app = express();
 const User = require("./model/User");
 const userRouter = require("./router/UserRouter");
+const cors = require("cors");
+app.use(cors);
 app.use(express.json());
-
 app.use("/register", userRouter);
+app.use("/users", userRouter);
 app.listen(5500);
