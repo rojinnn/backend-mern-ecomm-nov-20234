@@ -30,4 +30,4 @@ const sendEmail = async (to, subject, text) => {
 };
 
 // Call the sendEmail function
-module.exports = sendEmail;
+module.exports = sendEmail; //call using await
