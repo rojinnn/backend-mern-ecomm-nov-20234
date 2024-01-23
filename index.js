@@ -53,6 +53,22 @@ app.delete("/product/:id", async (req, res) => {
     res.status(404).send("Product not found");
   }
 });
+app.get("/product/:id", async (req, res) => {
+  let result = await Product.findOne({ _id: req.params.id });
+  if (result) {
+    res.send(result);
+  } else {
+    res.status(404).send("No record found.");
+  }
+});
+app.put("/product/:id", async (req, res) => {
+  let result = await Product.updateOne(
+    { _id: req.params.id },
+    { $set: req.body }
+  );
+  res.send(result);
+});
+
 app.listen(process.env.PORT, () => {
   console.log("Serving at port number", process.env.PORT);
 });
