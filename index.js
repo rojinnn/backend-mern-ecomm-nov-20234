@@ -1,11 +1,18 @@
 const express = require("express");
 require("./db/config");
-const app = express();
 const User = require("./model/User");
-const userRouter = require("./router/UserRouter");
 const cors = require("cors");
-app.use(cors);
+// const userController = require("./controllers/userController");
+// const registerRouter = require("../back-end/router/registerRouter");
+const app = express();
 app.use(express.json());
-app.use("/register", userRouter);
-app.use("/users", userRouter);
-app.listen(5500);
+app.use(cors());
+
+app.post("/register", async (req, res) => {
+  let user = new User(req.body);
+  let result = await user.save();
+  res.send(result);
+});
+// app.use("/", registerRouter);
+
+app.listen(5000);
