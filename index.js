@@ -11,15 +11,20 @@ app.use(cors());
 app.post("/register", async (req, res) => {
   let user = new User(req.body);
   let result = await user.save();
+  result = result.toObject();
+  delete result.password;
   res.send(result);
 });
 
 app.post("/login", async (req, res) => {
+  console.log(req.body);
   if (req.body.password && req.body.email) {
-    console.log(req.body);
-
     let user = await User.findOne(req.body).select("-password");
-    res.send(user);
+    if (user) {
+      res.send(user);
+    } else {
+      res.status(404).send({ Message: "Error User Not Found" });
+    }
   } else {
     res.status(404).send({ Message: "Error User Not Found" });
   }
