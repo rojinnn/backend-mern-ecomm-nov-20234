@@ -69,6 +69,16 @@ app.put("/product/:id", async (req, res) => {
   res.send(result);
 });
 
+app.get("/search/:key", async (req, res) => {
+  let result = await Product.find({
+    $or: [
+      { name: { $regex: req.params.key } },
+      { brand: { $regex: req.params.key } },
+    ],
+  });
+  res.send(result);
+});
+
 app.listen(process.env.PORT, () => {
   console.log("Serving at port number", process.env.PORT);
 });
