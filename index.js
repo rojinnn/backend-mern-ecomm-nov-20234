@@ -5,6 +5,13 @@ const User = require("./model/User");
 const Product = require("./model/Product");
 const app = express();
 const env = require("dotenv");
+const {
+  getAllProducts,
+  createProduct,
+  getProductById,
+  deleteProductById,
+  updateProductById,
+} = require("./controllers/productsController");
 env.config();
 app.use(express.json());
 app.use(cors());
@@ -31,43 +38,11 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/add-product", async (req, res) => {
-  let product = new Product(req.body);
-  let result = await product.save();
-  res.status(200).send(result);
-});
-
-app.get("/products", async (req, res) => {
-  let products = await Product.find();
-  if (products.length > 0) {
-    res.status(200).send(products);
-  } else {
-    res.status(400).send({ result: "No product found" });
-  }
-});
-app.delete("/product/:id", async (req, res) => {
-  let result = await Product.deleteOne({ _id: req.params.id });
-  if (result) {
-    res.send(result);
-  } else {
-    res.status(404).send("Product not found");
-  }
-});
-app.get("/product/:id", async (req, res) => {
-  let result = await Product.findOne({ _id: req.params.id });
-  if (result) {
-    res.send(result);
-  } else {
-    res.status(404).send("No record found.");
-  }
-});
-app.put("/product/:id", async (req, res) => {
-  let result = await Product.updateOne(
-    { _id: req.params.id },
-    { $set: req.body }
-  );
-  res.send(result);
-});
+app.get("/products", getAllProducts);
+app.post("/add-product", createProduct);
+app.put("/product/:id", updateProductById);
+app.delete("/product/:id", deleteProductById);
+app.get("/product/:id", getProductById);
 
 app.get("/search/:key", async (req, res) => {
   let result = await Product.find({
