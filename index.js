@@ -12,9 +12,12 @@ const {
   deleteProductById,
   updateProductById,
 } = require("./controllers/productsController");
+const productRouter = require("./routers/productRouter");
 env.config();
 app.use(express.json());
 app.use(cors());
+app.use("/", productRouter);
+app.use("/prducts", productRouter);
 
 app.post("/register", async (req, res) => {
   let user = new User(req.body);
@@ -38,11 +41,11 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.get("/products", getAllProducts);
-app.post("/add-product", createProduct);
-app.put("/product/:id", updateProductById);
-app.delete("/product/:id", deleteProductById);
-app.get("/product/:id", getProductById);
+// app.get("/products", getAllProducts);
+// app.post("/add-product", createProduct);
+// app.put("/product/:id", updateProductById);
+// app.delete("/product/:id", deleteProductById);
+// app.get("/product/:id", getProductById);
 
 app.get("/search/:key", async (req, res) => {
   let result = await Product.find({
